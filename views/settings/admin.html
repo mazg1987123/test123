@@ -1,0 +1,92 @@
+{{extend '../_layouts/layout.html'}} {{block 'title'}}
+<title>多人博客-修改密码</title>
+{{/block}} {{block 'style'}} {{/block}} {{block 'content'}}
+
+<div style="overflow: hidden">
+  {{include '../_partials/settings-nav.html'}}
+
+  <div class="col-md-5">
+    <div class="subhead">
+      <h2>修改密码</h2>
+    </div>
+    <hr />
+    <form id="modify_form" method="POST">
+      <div class="form-group">
+        <label for="exampleInputPassword1">当前密码</label>
+        <input
+          type="password"
+          class="form-control"
+          name="oldpassword"
+          id="exampleInputPassword1"
+          placeholder=""
+        />
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword2">新的密码</label>
+        <input
+          type="password"
+          class="form-control"
+          name="newpassword"
+          id="exampleInputPassword2"
+          placeholder=""
+        />
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword3">确认密码</label>
+        <input
+          type="password"
+          class="form-control"
+          name="renewpassword"
+          id="exampleInputPassword3"
+          placeholder=""
+        />
+      </div>
+      <input type="submit" value="提交" />
+    </form>
+    <hr />
+  </div>
+</div>
+
+{{/block}} {{block 'script'}}
+<script src="/node_modules/blueimp-md5/js/md5.js"></script>
+<script>
+  $("#modify_form").submit(function () {
+    var formData = $(this).serializeArray();
+    formData.forEach((item) => {
+      if (item.name === "oldpassword") {
+        item.value = md5(item.value + "key_secret");
+      }
+      if (item.name === "newpassword") {
+        item.value = md5(item.value + "key_secret");
+      }
+      if (item.name === "renewpassword") {
+        item.value = md5(item.value + "key_secret");
+      }
+    });
+    $.ajax({
+      url: "http://localhost:8000/settings/admin",
+      type: "POST",
+      contentType: "application/json",
+      data: JSON.stringify(formData),
+      success: function (data) {
+        //修改密码成功
+        if (data.code === 20000) {
+            alert(data.msg);
+            window.location.href = "/logout"
+        }
+        //修改密码失败
+        else if (data.code === 19999) {
+          alert(data.err);
+          $("#modify_form")[0].reset();
+        }
+      },
+      error: function (err) {
+        console.log("请求失败", err);
+      },
+    });
+
+    return false;
+  });
+</script>
+
+{{/block}}

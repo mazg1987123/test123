@@ -1,0 +1,100 @@
+{{extend '../_layouts/layout.html'}} {{block 'title'}}
+<title>多人博客-基本信息</title>
+{{/block}} {{block 'style'}} {{/block}} {{block 'content'}}
+<div style="overflow: hidden">
+  {{include '../_partials/settings-nav.html'}}
+
+  <div class="col-md-5">
+    <form
+      enctype="multipart/form-data"
+      method="post"
+      action="/settings/profile"
+    >
+      <input type="hidden" name="_id" value="{{user&&user._id.toString()}}"/>
+      <div class="form-group">
+        <label>账号</label>
+        <p class="form-control-static">{{user&&user.email}}</p>
+      </div>
+      <div class="form-group">
+        <label for="nickname">昵称</label>
+        <input
+          type="text"
+          class="form-control"
+          name="nickname"
+          id="nickname"
+          placeholder=""
+          value="{{user&&user.nickname}}"
+        />
+      </div>
+      <div class="form-group">
+        <label for="bio">介绍</label>
+        <textarea class="form-control" rows="3" name="bio" id="bio">
+            {{user&&user.bio}}
+        </textarea>
+      </div>
+      <div class="form-group">
+        <label>性别</label>
+        <div>
+          <label class="radio-inline">
+            <input type="radio" name="gender" value="-1"
+            {{user&&user.gender==-1?'checked':''}}/> 男
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="gender" value="1"
+            {{user&&user.gender==1?'checked':''}}/> 女
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="gender" value="0"
+            {{user&&user.gender==0?'checked':''}}/> 保密
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <dl>
+          <dt>头像设置</dt>
+          <dd>
+            <img
+              class="avatar"
+              src="{{user&&user.avatar}}"
+              width="150"
+              height="150"
+              alt=""
+            />
+            <div>
+              <input
+                type="file"
+                id="avatar"
+                name="avatar"
+                accept="image/*"
+                onchange="getFileContent()"
+              />
+            </div>
+          </dd>
+        </dl>
+      </div>
+      <button type="submit" class="btn btn-success">保存</button>
+    </form>
+  </div>
+</div>
+
+{{/block}} {{block 'script'}}
+<script>
+  function getFileContent() {
+    //创建一个文件读取对象
+    var reader = new FileReader();
+    //拿到avatar文件域中的文件信息
+    var file = document.querySelector("#avatar").files;
+
+    if (file && file.length > 0) {
+      //读取avatar文件域中的文件数据
+      reader.readAsDataURL(file[0]);
+      //当数据读取完毕的时候
+      reader.onload = function () {
+        //让图片预览中显示上传的图片信息
+        document.querySelector(".form-group img").src = reader.result;
+      };
+    }
+  }
+</script>
+
+{{/block}}

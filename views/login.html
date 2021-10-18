@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="/node_modules/bootstrap/dist/css/bootstrap.css"
+    />
+    <link rel="stylesheet" href="/public/css/login.css" />
+  </head>
+
+  <body>
+    <div class="main">
+      <div class="header">
+        <a href="/">
+          <img src="/public/img/igeek.png" alt="" />
+        </a>
+        <h1>用户登录</h1>
+        <p id="showInfo"></p>
+      </div>
+      <form id="login_form" action="/login" method="post">
+        <div class="form-group">
+          <label for="email">邮箱</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            placeholder="Email"
+            autofocus
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">密码</label>
+          <a class="pull-right" href="">忘记密码？</a>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            name="password"
+            placeholder="Password"
+          />
+        </div>
+        <div class="checkbox">
+          <label> <input type="checkbox" />记住我 </label>
+        </div>
+        <button type="submit" class="btn btn-success btn-block">登录</button>
+      </form>
+      <div class="message">
+        <p>没有账号? <a href="/register">点击创建</a>.</p>
+      </div>
+    </div>
+
+    <script src="/node_modules/jquery/dist/jquery.js"></script>
+    <script src="/node_modules/blueimp-md5/js/md5.js"></script>
+
+    <script>
+      $("#login_form").submit(function () {
+        var formData = $(this).serializeArray();
+        formData.forEach((item) => {
+          if (item.name === "password") {
+            item.value = md5(item.value + "key_secret");
+          }
+        });
+        $.ajax({
+          url: "http://localhost:8000/login",
+          type: "POST",
+          contentType: "application/json",
+          data: JSON.stringify(formData),
+          success: function (data) {
+            if(data.code === 20000){
+                window.location.href = "/"
+            }
+            else if(data.code === 19999){
+                document.querySelector("#showInfo").innerHTML = data.err;
+            }
+          },
+          error: function (err) {
+            console.log("请求失败", err);
+          },
+        });
+
+        return false;
+      });
+    </script>
+  </body>
+</html>

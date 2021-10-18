@@ -1,0 +1,77 @@
+<!-- {
+    _id: new ObjectId("6168d96d050e6ac9b8a3b08b"),
+    forum: 'share',
+    title: '女子住酒店换2房均查出摄像头',
+    content: '近日，唐女士入住湖南郴州的临武国际大酒店时，发现自己所住房间有针孔摄像头。换房间后，唐女士发现也
+  有摄像头。目前警方正对此事进行调查',
+    created_time: 2021-10-15T01:29:17.357Z,
+    user_id: '6167a231a8be6d951b83e49d',
+    icon: '\\public\\img\\1634197593188-90营就业.png',
+    __v: 0
+  }
+-->
+
+{{extend '../_layouts/layout.html'}} 
+
+{{block 'title'}}
+<title>多人博客-文章详情</title>
+{{/block}}
+
+{{block 'style'}}
+<style>
+    .panel .panel-heading .action i {
+      margin-right: 10px;
+    }
+  </style>
+{{/block}}
+
+{{block 'content'}}
+<section class="container">
+    <div class="row">
+      <div class="col-md-9">
+        <article class="markdown-body">
+          <h1 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link"><span class="headeranchor"></span></a>{{article.title}}</h1>
+          <blockquote>
+            <p>{{article.content}}</p>
+          </blockquote>
+        </article>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <span>lipengzhou</span> commented 
+            <span>24 minutes ago</span>
+            <span class="action">
+              <a href=""><i class="glyphicon glyphicon-thumbs-up pull-right"></i></a>
+              <a href=""><i class="glyphicon glyphicon-remove-circle pull-right"></i></a>
+              <a href=""><i class="glyphicon glyphicon-remove-circle pull-right"></i></a>
+            </span>
+          </div>
+          <div class="panel-body">
+            评论测试
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <span>lipengzhou</span> commented 
+            <span>24 minutes ago</span>
+            <span class="action">
+              <a href=""><i class="glyphicon glyphicon-thumbs-up pull-right"></i></a>
+              <a href=""><i class="glyphicon glyphicon-remove-circle pull-right"></i></a>
+              <a href=""><i class="glyphicon glyphicon-remove-circle pull-right"></i></a>
+            </span>
+          </div>
+          <div class="panel-body">
+            评论测试
+          </div>
+        </div>
+        <hr>
+        <form>
+          <div class="form-group">
+            <label for="exampleInputPassword1">添加回复</label>
+            <textarea id="exampleInputPassword1" class="form-control" name="" id="" cols="10" rows="10"></textarea>
+          </div>
+          <button type="submit" class="btn btn-success">回复</button>
+        </form>
+      </div>
+    </div>
+  </section>
+{{/block}}
